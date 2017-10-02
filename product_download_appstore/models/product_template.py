@@ -21,18 +21,18 @@ class ProductProduct(models.Model):
     def create_dependency_list(self):
         ret_val = {}
         print "111111111111111111!", self
-        def child_dependancy(children):
+        def child_dependency(children):
             res = self.env['product.product']
             for child in children:
                 if not child.dependent_product_ids:
                     continue
                 res += child.dependent_product_ids
-                res += child_dependancy(child.dependent_product_ids)
+                res += child_dependency(child.dependent_product_ids)
             return res
         for product in self:
             ret_val[product.id] = product.dependent_product_ids
             if product.dependent_product_ids:
-                ret_val[product.id] += child_dependancy(product.dependent_product_ids)
+                ret_val[product.id] += child_dependency(product.dependent_product_ids)
         return ret_val
 
 ProductProduct()
