@@ -5,7 +5,7 @@
     "author": "OCA",
     "website": "http://www.odoo-community.com",
     "category": "GenericModules",
-    "depends": ["base", 'website_sale_digital'],
+    "depends": ["base", 'website_sale_digital', 'github_connector_odoo'],
     "summary": "Product Download for Appstore",
     "description": """
     Product Download with all dependent modules

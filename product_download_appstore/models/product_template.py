@@ -2,7 +2,8 @@
 
 
 from openerp import models, fields, api
-
+import inspect
+import pprint
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -16,11 +17,11 @@ class ProductProduct(models.Model):
     _inherit = 'product.product'
 
     dependent_product_ids = fields.Many2many('product.product', 'prto_validateoduct_dependent_rel', 'src_id', 'dest_id', string='Dependent Products')
+    module_path = fields.Char('Module Path')
 
     @api.multi
     def create_dependency_list(self):
         ret_val = {}
-        print "111111111111111111!", self
         def child_dependancy(children):
             res = self.env['product.product']
             for child in children:
@@ -34,6 +35,10 @@ class ProductProduct(models.Model):
             if product.dependent_product_ids:
                 ret_val[product.id] += child_dependancy(product.dependent_product_ids)
         return ret_val
+    @api.multi
+    def generate_zip_file(self):
+        for product in self:
+            dependent_product_ids = product.create_dependency_list()[product.id]
 
 ProductProduct()
 
