@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Product Download for Appstore",
-    "version": "0.1",
-    "author": "OCA",
-    "website": "http://www.odoo-community.com",
-    "category": "GenericModules",
-    "depends": ["base", 'website_sale_digital', 'github_connector_odoo'],
+    "version": "10.0.0",
+    "author": "BizzAppDev, AgentERP, Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/apps-store",
+    "license": "AGPL-3",
+    "category": "Uncategorized",
+    "depends": [
+        'base',
+        'website_sale_digital',
+        'github_connector_odoo'
+    ],
     "summary": "Product Download for Appstore",
     "description": """
     Product Download with all dependent modules
