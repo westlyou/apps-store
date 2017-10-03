@@ -12,16 +12,11 @@
         'github_connector_odoo'
     ],
     "summary": "Product Download for Appstore",
-    "description": """
-    Product Download with all dependent modules
-    """,
     "data": [
         'views/product_template_view.xml',
         'data/cron_scheduler.xml'
     ],
     'installable': True,
-    'active': False,
     'auto_install': False,
     'application': False
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
