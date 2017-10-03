@@ -53,14 +53,19 @@ class ProductProduct(models.Model):
     @api.multi
     def generate_zip_file(self):
         for product in self:
+            if not product.module_path:
+                continue
             tmpdir = tempfile.mkdtemp()
             tmpdir2 = tempfile.mkdtemp()
             dependent_product_ids = product.create_dependency_list()[product.id]
             for dependent_product in dependent_product_ids:
+                if not dependent_product.module_path:
+                    continue
+                print "3333333#",dependent_product.module_path
                 p1 = subprocess.Popen(['cp','-r', dependent_product.module_path, tmpdir], stdout=subprocess.PIPE)
             p1 = subprocess.Popen(['cp','-r', product.module_path, tmpdir], stdout=subprocess.PIPE)
             #createzip of folder
-            tmpzipfile = os.path.join(tmpdir2,self.name)
+            tmpzipfile = os.path.join(tmpdir2,product.name)
             shutil.make_archive(tmpzipfile, 'zip', tmpdir)
             tmpzipfile = tmpzipfile + '.zip'
             with open(tmpzipfile, "rb") as fileobj:
@@ -82,5 +87,9 @@ class ProductProduct(models.Model):
                 shutil.rmtree(tmpdir2)
             except Exception as exc:
                 _logger.warning('Could not remove Tempdir %s, Errormsg %s' % (tmpdir, exc.message))
+
+    @api.model
+    def generate_zip_file_batch(self):
+        self.search([]).generate_zip_file()
 
 ProductProduct()

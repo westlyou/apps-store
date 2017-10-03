@@ -14,6 +14,7 @@
     "init_xml": [],
     "data": [
         'views/product_template_view.xml',
+        'data/cron_scheduler.xml'
     ],
     'demo_xml': [
     ],
