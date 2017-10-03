@@ -75,9 +75,12 @@ class ProductProduct(models.Model):
                                   tmpdir], stdout=subprocess.PIPE)
             subprocess.Popen(['cp', '-r', product.module_path, tmpdir],
                              stdout=subprocess.PIPE)
-            tmpzipfile = os.path.join(tmpdir2, product.name)
+            time_value = time.strftime(
+                '_%y%m%d_%H%M%S')
+
+            tmpzipfile = os.path.join(tmpdir2, product.name) + time_value
             shutil.make_archive(tmpzipfile, 'zip', tmpdir)
-            tmpzipfile = tmpzipfile + time.strftime('%y%m%d_%H%M%S') + '.zip'
+            tmpzipfile = tmpzipfile + '.zip'
             with open(tmpzipfile, "rb") as fileobj:
                 try:
                     data_encode = base64.encodestring(fileobj.read())
@@ -85,7 +88,7 @@ class ProductProduct(models.Model):
                         'datas': data_encode,
                         'datas_fname': tmpzipfile,
                         'type': 'binary',
-                        'name': product.name + '.zip',
+                        'name': product.name + time_value + '.zip',
                         'res_model': product._name,
                         'res_id': product.id,
                         'product_downloadable': True,
