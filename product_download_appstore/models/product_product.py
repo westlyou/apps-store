@@ -1,23 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import inspect
-import pprint
 import os
 import tempfile
 import shutil
-import errno
 import logging
 import base64
 import subprocess
 from odoo.exceptions import ValidationError
 from odoo import models, fields, api
 _logger = logging.getLogger(__name__)
-
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
-
-
-ProductTemplate()
 
 
 class ProductProduct(models.Model):
@@ -91,14 +82,5 @@ class ProductProduct(models.Model):
                 shutil.rmtree(tmpdir2)
             except Exception as exc:
                 _logger.warning('Could not remove Tempdir %s, Errormsg %s' % (tmpdir, exc.message))
-
-    def copyfolder(self, src, dst, symlinks=False, ignore=None):
-        for item in os.listdir(src):
-            s = os.path.join(src, item)
-            d = os.path.join(dst, item)
-            if os.path.isdir(s):
-                shutil.copytree(s, d, symlinks, ignore)
-            else:
-                shutil.copy2(s, d)
 
 ProductProduct()
