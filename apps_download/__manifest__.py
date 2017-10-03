@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
+# Copyright 2013-2017 BizzAppDev - Ruchir Shukla <ruchir@bizzappdev.com>
+# Copyright 2013-2017 AgentERP - Georg Notter <georg.notter@agenterp.com>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Product Download for Appstore",
-    "version": "10.0.0.0.1",
-    "author": "BizzAppDev, AgentERP, Odoo Community Association (OCA)",
+    "version": "10.0.1.0.0",
+    "author": "BizzAppDev, AgentERP, Elico Corp, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/apps-store",
     "license": "AGPL-3",
-    "category": "Uncategorized",
+    "category": "Sales",
     "depends": [
         'base',
         'website_sale_digital',

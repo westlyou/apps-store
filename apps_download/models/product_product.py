@@ -6,6 +6,7 @@ import shutil
 import logging
 import base64
 import subprocess
+import time
 from odoo.exceptions import ValidationError
 from odoo import models, fields, api, _
 _logger = logging.getLogger(__name__)
@@ -23,22 +24,21 @@ class ProductProduct(models.Model):
     @api.constrains('dependent_product_ids')
     def check_dependent_recursion(self):
         for product in self:
-            def child_dependancy_check(product_dependent_ids, children):
+            def child_dependency_check(product_dependent_ids, children):
                 res = self.env['product.product']
                 for child in children:
                     if not child.dependent_product_ids:
                         continue
                     if child in product_dependent_ids:
                         raise ValidationError(
-                            _('Error ! You cannot create recursive'
-                              'Dependency.')
+                            _('Error: You cannot create recursive dependency.')
                         )
                     product_dependent_ids += child
-                    child_dependancy_check(product_dependent_ids,
+                    child_dependency_check(product_dependent_ids,
                                            child.dependent_product_ids)
                 return res
 
-            child_dependancy_check(product, product.dependent_product_ids)
+            child_dependency_check(product, product.dependent_product_ids)
 
     @api.multi
     def create_dependency_list(self):
@@ -77,7 +77,7 @@ class ProductProduct(models.Model):
                              stdout=subprocess.PIPE)
             tmpzipfile = os.path.join(tmpdir2, product.name)
             shutil.make_archive(tmpzipfile, 'zip', tmpdir)
-            tmpzipfile = tmpzipfile + '.zip'
+            tmpzipfile = tmpzipfile + time.strftime('%y%m%d_%H%M%S') + '.zip'
             with open(tmpzipfile, "rb") as fileobj:
                 try:
                     data_encode = base64.encodestring(fileobj.read())

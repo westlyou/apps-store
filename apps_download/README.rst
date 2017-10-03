@@ -7,7 +7,7 @@ Product Download for Appstore
 =============================
 
 Providing facility for the maintain dependency of Module at level of product
-and creating Zip file with all dependent modules
+and creating Zip file with all dependent modules.
 
 .. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
    :alt: Try me on Runbot
@@ -34,8 +34,7 @@ Contributors
 
 * Ruchir Shukla <ruchir@bizzappdev.com> BizzAppDev https://www.bizzappdev.com
 * Georg Nottere <georg.notter@agenterp.com> AgentERP https://www.agenterp.com
-
-Do not contact contributors directly about support or help with technical issues.
+* Eric Caudal eric.caudal@elico-corp.com Elico Corp https://www.elico-corp.com
 
 Maintainer
 ----------
