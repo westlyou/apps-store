@@ -102,5 +102,3 @@ class ProductProduct(models.Model):
     @api.model
     def generate_zip_file_batch(self):
         self.search([]).generate_zip_file()
-
-ProductProduct()
