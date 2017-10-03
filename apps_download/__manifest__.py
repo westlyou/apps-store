@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Product Download for Appstore",
-    "version": "10.0.0",
+    "version": "10.0.0.0.1",
     "author": "BizzAppDev, AgentERP, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/apps-store",
     "license": "AGPL-3",
@@ -15,15 +15,9 @@
     "description": """
     Product Download with all dependent modules
     """,
-    'images': [],
-    "init_xml": [],
     "data": [
         'views/product_template_view.xml',
         'data/cron_scheduler.xml'
-    ],
-    'demo_xml': [
-    ],
-    'test':[
     ],
     'installable': True,
     'active': False,
