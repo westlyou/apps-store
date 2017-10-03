@@ -8,6 +8,7 @@ import tempfile
 import shutil
 import errno
 import logging
+import base64
 _logger = logging.getLogger(__name__)
 import subprocess
 
@@ -45,27 +46,32 @@ class ProductProduct(models.Model):
     def generate_zip_file(self):
         for product in self:
             tmpdir = tempfile.mkdtemp()
+            tmpdir2 = tempfile.mkdtemp()
             dependent_product_ids = product.create_dependency_list()[product.id]
             for dependent_product in dependent_product_ids:
                 p1 = subprocess.Popen(['cp','-r', dependent_product.module_path, tmpdir], stdout=subprocess.PIPE)
             p1 = subprocess.Popen(['cp','-r', product.module_path, tmpdir], stdout=subprocess.PIPE)
             #createzip of folder
-            tmpzipfile = os.path.join(tmpdir,self.name)
+            tmpzipfile = os.path.join(tmpdir2,self.name)
             shutil.make_archive(tmpzipfile, 'zip', tmpdir)
+            tmpzipfile = tmpzipfile + '.zip'
             with open(tmpzipfile, "rb") as fileobj:
                 try:
                     data_encode = base64.encodestring(fileobj.read())
-                    attachment_id = attachment_obj.create({'datas': data_encode,
-                                                   'datas_fname': tmpzipfile,
-                                                   'type': 'binary',
-                                                   'name': tmpzipfile,
-                                                   'res_model': self._name,
-                                                   'product_downloadable': True,
-                                                    })
+                    self.env['ir.attachment'].create({
+                        'datas': data_encode,
+                        'datas_fname': tmpzipfile,
+                        'type': 'binary',
+                        'name': product.name + '.zip',
+                        'res_model': product._name,
+                        'res_id': product.id,
+                        'product_downloadable': True,
+                    })
                 except:
-                    _logger.info('Error reading tmp Zipfile %s' % tmpzipfile)
+                    _logger.error('Error creating attachment %s' % tmpzipfile)
             try:
                 shutil.rmtree(tmpdir)
+                shutil.rmtree(tmpdir2)
             except Exception as exc:
                 _logger.warning('Could not remove Tempdir %s, Errormsg %s' % (tmpdir, exc.message))
 
@@ -78,9 +84,4 @@ class ProductProduct(models.Model):
             else:
                 shutil.copy2(s, d)
 
-
-
 ProductProduct()
-
-
-
