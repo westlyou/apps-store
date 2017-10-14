@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright 2013-2017 BizzAppDev - Ruchir Shukla <ruchir@bizzappdev.com>
-    Copyright 2013-2017 AgentERP - Georg Notter <georg.notter@agenterp.com>
+    Copyright 2017 BizzAppDev - Ruchir Shukla <ruchir@bizzappdev.com>
+    Copyright 2017 AgentERP - Georg Notter <georg.notter@agenterp.com>
     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-    <data>
-        <record forcecreate="True" id="ir_cron_scheduler_generate_zip" model="ir.cron">
+        <record id="ir_cron_scheduler_generate_zip" model="ir.cron">
             <field name="name">Generate all product zip</field>
-            <field eval="True" name="active"/>
             <field name="user_id" ref="base.user_root"/>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
-            <field eval="False" name="doall"/>
-            <field eval="'product.product'" name="model"/>
-            <field eval="'generate_zip_file_batch'" name="function"/>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'product.product'"/>
+            <field name="function" eval="'generate_zip_file_batch'"/>
             <field name="args" eval="'()'" />
         </record>
 
-    </data>
 </odoo>

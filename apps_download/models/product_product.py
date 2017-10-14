@@ -65,10 +65,10 @@ class ProductProduct(models.Model):
             if not product.module_path:
                 continue
             tmpdir = tempfile.mkdtemp()
-            tmpdir2 = tempfile.mkdtemp()
-            dependent_product_ids = product.create_dependency_list(
-                )[product.id]
-            for dependent_product in dependent_product_ids:
+            tmpdir_2 = tempfile.mkdtemp()
+            dependent_products = product.create_dependency_list()
+            dependent_products = dependent_products[product.id]
+            for dependent_product in dependent_products:
                 if not dependent_product.module_path:
                     continue
                 subprocess.Popen(['cp', '-r', dependent_product.module_path,
@@ -78,15 +78,15 @@ class ProductProduct(models.Model):
             time_value = time.strftime(
                 '_%y%m%d_%H%M%S')
 
-            tmpzipfile = os.path.join(tmpdir2, product.name) + time_value
-            shutil.make_archive(tmpzipfile, 'zip', tmpdir)
-            tmpzipfile = tmpzipfile + '.zip'
-            with open(tmpzipfile, "rb") as fileobj:
+            tmp_zip_file = os.path.join(tmpdir_2, product.name) + time_value
+            shutil.make_archive(tmp_zip_file, 'zip', tmpdir)
+            tmp_zip_file = '%s.zip' % tmp_zip_file
+            with open(tmp_zip_file, "rb") as file_obj:
                 try:
-                    data_encode = base64.encodestring(fileobj.read())
+                    data_encode = base64.encodestring(file_obj.read())
                     self.env['ir.attachment'].create({
                         'datas': data_encode,
-                        'datas_fname': tmpzipfile,
+                        'datas_fname': tmp_zip_file,
                         'type': 'binary',
                         'name': product.name + time_value + '.zip',
                         'res_model': product._name,
@@ -94,12 +94,17 @@ class ProductProduct(models.Model):
                         'product_downloadable': True,
                     })
                 except:
-                    _logger.error('Error creating attachment %s' % tmpzipfile)
+                    _logger.error('Error creating attachment %s' %
+                                  tmp_zip_file)
             try:
                 shutil.rmtree(tmpdir)
-                shutil.rmtree(tmpdir2)
-            except Exception as exc:
+            except OSError as exc:
                 _logger.warning('Could not remove Tempdir %s, Errormsg %s' % (
+                    tmpdir, exc.message))
+            try:
+                shutil.rmtree(tmpdir_2)
+            except OSError as exc:
+                _logger.warning('Could not remove Tempdir 2 %s, Errormsg %s' % (
                     tmpdir, exc.message))
 
     @api.model

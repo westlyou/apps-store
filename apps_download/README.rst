@@ -32,9 +32,9 @@ Images
 Contributors
 ------------
 
-* Ruchir Shukla <ruchir@bizzappdev.com> BizzAppDev https://www.bizzappdev.com
-* Georg Nottere <georg.notter@agenterp.com> AgentERP https://www.agenterp.com
-* Eric Caudal eric.caudal@elico-corp.com Elico Corp https://www.elico-corp.com
+* Ruchir Shukla <ruchir@bizzappdev.com>
+* Georg Nottere <georg.notter@agenterp.com>
+* Eric Caudal <eric.caudal@elico-corp.com>
 
 Maintainer
 ----------
