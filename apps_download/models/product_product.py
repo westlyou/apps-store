@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# Copyright (C) 2017-Today: Odoo Community Association (OCA)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
 
 import os
 import tempfile
@@ -35,6 +38,7 @@ class ProductProduct(models.Model):
             self.child_dependency_check(product_dependent_ids,
                                         child.dependent_product_ids)
         return res
+
     @api.constrains('dependent_product_ids')
     def check_dependent_recursion(self):
         for product in self:
@@ -76,10 +80,16 @@ class ProductProduct(models.Model):
                                   tmp_dir], stdout=subprocess.PIPE)
             subprocess.Popen(['cp', '-r', product.module_path, tmp_dir],
                              stdout=subprocess.PIPE)
-            time_value = time.strftime(
+            time_version_value = time.strftime(
                 '_%y%m%d_%H%M%S')
+            if product.attribute_value_ids:
+                time_version_value = '_%s%s' % (
+                    '_'.join([name.replace('.', '_') for name in
+                            product.attribute_value_ids.mapped('name')]),
+                             time_version_value)
 
-            tmp_zip_file = os.path.join(tmp_dir_2, product.name) + time_value
+            tmp_zip_file = (os.path.join(tmp_dir_2, product.name) +
+                            time_version_value)
             shutil.make_archive(tmp_zip_file, 'zip', tmp_dir)
             tmp_zip_file = '%s.zip' % tmp_zip_file
             with open(tmp_zip_file, "rb") as file_obj:
@@ -87,9 +97,9 @@ class ProductProduct(models.Model):
                     data_encode = base64.encodestring(file_obj.read())
                     self.env['ir.attachment'].create({
                         'datas': data_encode,
-                        'datas_fname':  product.name + time_value + '.zip',
+                        'datas_fname':  product.name + time_version_value + '.zip',
                         'type': 'binary',
-                        'name': product.name + time_value + '.zip',
+                        'name': product.name + time_version_value + '.zip',
                         'res_model': product._name,
                         'res_id': product.id,
                         'product_downloadable': True,
