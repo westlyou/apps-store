@@ -13,6 +13,11 @@ and creating Zip file with all dependent modules.
    :alt: Try me on Runbot
    :target: https://runbot.odoo-community.org/runbot/249/10.0
 
+Known issues / Roadmap
+======================
+
+* Creation of an error queue if the exception occurs while generating zip file of the product
+
 Bug Tracker
 ===========
 
