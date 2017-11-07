@@ -24,25 +24,12 @@ class ProductProduct(models.Model):
     )
     module_path = fields.Char('Module Path')
 
-    @api.model
-    def child_dependency_check(self, product_dependent_ids, children):
-        res = self.env['product.product']
-        for child in children:
-            if not child.dependent_product_ids:
-                continue
-            if child in product_dependent_ids:
-                raise ValidationError(
-                    _('Error: You cannot create recursive dependency.')
-                )
-            product_dependent_ids += child
-            self.child_dependency_check(product_dependent_ids,
-                                        child.dependent_product_ids)
-        return res
-
     @api.constrains('dependent_product_ids')
     def check_dependent_recursion(self):
-        for product in self:
-            self.child_dependency_check(product, product.dependent_product_ids)
+        if not self._check_m2m_recursion('dependent_product_ids'):
+            raise ValidationError(
+                _('Error: You cannot create recursive dependency.')
+            )
 
     @api.model
     def child_dependency(self, children):
