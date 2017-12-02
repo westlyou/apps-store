@@ -72,8 +72,8 @@ class ProductProduct(models.Model):
             if product.attribute_value_ids:
                 time_version_value = '_%s%s' % (
                     '_'.join([name.replace('.', '_') for name in
-                            product.attribute_value_ids.mapped('name')]),
-                             time_version_value)
+                              product.attribute_value_ids.mapped('name')]),
+                    time_version_value)
 
             tmp_zip_file = (os.path.join(tmp_dir_2, product.name) +
                             time_version_value)
@@ -84,7 +84,8 @@ class ProductProduct(models.Model):
                     data_encode = base64.encodestring(file_obj.read())
                     self.env['ir.attachment'].create({
                         'datas': data_encode,
-                        'datas_fname':  product.name + time_version_value + '.zip',
+                        'datas_fname':  (product.name + time_version_value +
+                                         '.zip'),
                         'type': 'binary',
                         'name': product.name + time_version_value + '.zip',
                         'res_model': product._name,
@@ -102,8 +103,9 @@ class ProductProduct(models.Model):
             try:
                 shutil.rmtree(tmp_dir_2)
             except OSError as exc:
-                _logger.warning('Could not remove Tempdir 2 %s, Errormsg %s' % (
-                    tmp_dir, exc.message))
+                _logger.warning(
+                    'Could not remove Tempdir 2 %s, Errormsg %s' % (
+                        tmp_dir, exc.message))
 
     @api.model
     def generate_zip_file_batch(self):
