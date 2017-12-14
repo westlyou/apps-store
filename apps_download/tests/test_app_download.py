@@ -16,7 +16,7 @@ class TestAppDownload(TransactionCase):
         super(TestAppDownload, self).setUp()
         test_path = os.path.dirname(os.path.realpath(__file__))
         module_path = os.path.join(
-            test_path, 'modules', 'business_requirement')
+            test_path, 'test_modules', 'broken_lint')
         self.sub_child_product = self.env['product.product'].create(
             {
                 'name': 'business_requirement',
@@ -24,7 +24,7 @@ class TestAppDownload(TransactionCase):
             }
         )
         module_path = os.path.join(
-            test_path, 'modules', 'business_requirement_deliverable')
+            test_path, 'test_modules', 'second_module')
         self.child_product = self.env['product.product'].create(
             {
                 'name': 'business_requirement_deliverable',
@@ -33,7 +33,7 @@ class TestAppDownload(TransactionCase):
             }
         )
         module_path = os.path.join(
-            test_path, 'modules', 'business_requirement_deliverable_project')
+            test_path, 'test_modules', 'test_module')
         self.main_app_product = self.env['product.product'].create(
             {
                 'name': 'business_requirement_deliverable_project',
